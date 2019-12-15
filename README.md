@@ -15,7 +15,10 @@ It uses a slightly more minimalistic form factor than JWT.
 ```html
 <script>
 	let secret = "rather secret key";
-	let json = {"something": "to be sent"};
+	let json = {
+		"algo": "HS256",
+		"something": "to be sent"
+	};
   
 	let jwt = new jwt_frame(json, 'HMAC', secret);
 	jwt.sign(function(signature) {
