@@ -42,9 +42,9 @@ Or via GitHub as CDN:
 
 ```html
 <script type="text/javascript">
-	// Loading JavaScript from a cross-site resource is blocked.
-	// But there's nothing stopping us from downloading the script
-	// as a text-blob and placing it within the <script> </ script> tags,
+	// Loading JavaScript from a cross-site resource is blocked on GitHub.
+	// But there's nothing stopping us from downloading the script as a
+	// text-blob and placing it within the <script> </script> tags,
 	// which causes the browser to parse it, but not as a forrain object.
 	//
 	// #LoadingScriptsFromGithub
