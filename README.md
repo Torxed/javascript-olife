@@ -5,7 +5,7 @@ It uses a slightly more minimalistic form factor than JWT.
 ```json
 {
   "alg": "HS256",
-  "sign": crypto.suble.sign("HMAC", cryptKey, this)
+  "sign": crypto.suble.sign(HMAC, cryptKey, this)
 }
 ```
 
