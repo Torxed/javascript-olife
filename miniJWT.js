@@ -16,10 +16,8 @@ class _jwt_frame {
 
 	sign(func) {
 		let payload = getUtf8Bytes(JSON.stringify(this.data));
-		console.log('Signing:', payload);
 		crypto.subtle.importKey('raw', getUtf8Bytes(this.key), { name: 'HMAC', hash: 'SHA-256' }, true, ['sign']).then(function(cryptoKey) {
 			crypto.subtle.sign('HMAC', cryptoKey, payload).then(function(signature) {
-				console.log('Sigature:', hexdigest(signature));
 				func(hexdigest(signature));
 			})
 		})
