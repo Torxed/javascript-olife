@@ -35,6 +35,12 @@ It uses a slightly more minimalistic form factor than JWT.
 # Installation
 
 ```html
+<script type="text/javascript" href="./miniJWT.js"></script>
+```
+
+Or via GitHub as CDN:
+
+```html
 <script type="text/javascript">
 	// Loading JavaScript from a cross-site resource is blocked.
 	// But there's nothing stopping us from downloading the script
