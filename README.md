@@ -24,8 +24,6 @@ A very minimal implementation of JWT using crypto.subtle
 
 ```html
 <script type="text/javascript">
-	let socket = null; // Create a global socket element, initate it with `new slimWebSocket();` later
-	
 	// Loading JavaScript from a cross-site resource is blocked.
 	// But there's nothing stopping us from downloading the script
 	// as a text-blob and placing it within the <script> </ script> tags,
