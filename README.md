@@ -8,12 +8,12 @@ A very minimal implementation of JWT using crypto.subtle
 	let secret = "rather secret key";
 	let json = {"something": "to be sent"};
   
-  json['sign'] = null;
-  let jwt = new jwt_frame(json, 'HMAC', secret);
-  jwt.sign(function(signature) {
-    json['sign'] = signature
-    socket.send(json);
-  })
+	json['sign'] = null;
+	let jwt = new jwt_frame(json, 'HMAC', secret);
+	jwt.sign(function(signature) {
+		json['sign'] = signature
+		socket.send(json);
+	})
 </script>
 ```
 
