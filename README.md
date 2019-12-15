@@ -1,6 +1,6 @@
 # miniJWT
-A very minimal implementation of JWT variant using crypto.subtle.<br>
-It uses a slightly more minimalistic form factor than JWT.
+A very minimal implementation of JWT using crypto.subtle.<br>
+It uses a slightly more minimalistic form factor of the JWT-format.
 
 ```json
 {
@@ -9,6 +9,7 @@ It uses a slightly more minimalistic form factor than JWT.
   "sign": crypto.suble.sign(HMAC-cryptKey-this)
 }
 ```
+This removes the need for three separate JSON bodies per request.
 
 # Example usecases
 
