@@ -11,7 +11,7 @@ class _olife {
 	constructor(domain, mode, secret) {
 		this.domain = domain;
 		this.mode = mode;
-		this.key = key;
+		this.key = secret;
 	}
 
 	sign(data, key, func) {
