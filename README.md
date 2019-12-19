@@ -39,7 +39,7 @@ Or via GitHub as CDN:
 	// #LoadingScriptsFromGithub
 
 	let xhr = new XMLHttpRequest();
-	xhr.open("GET", 'https://raw.githubusercontent.com/Torxed/olife/master/olife.js', true);
+	xhr.open("GET", 'https://raw.githubusercontent.com/Torxed/javascript-olife/master/olife.js', true);
 	xhr.onreadystatechange = function() {
 		if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
 			let script = document.createElement('script');
