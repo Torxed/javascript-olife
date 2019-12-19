@@ -1,42 +1,30 @@
-# miniJWT
-A very minimal implementation of JWT using crypto.subtle.<br>
-It uses a slightly more minimalistic form factor of the JWT-format.
+# javascript-olife
+JavaScript bindings for [obtain.life](https://github.com/Torxed/obtain.life).<br>
+Used in back-end services or front-end to get SSO *(single Sign On)* or to communicate with the obtain.life Identity Management suit *(self-hosted or otherwise)*.
 
-```json
-{
-  "alg": "HS256",
-  "payload data": "a string for instance",
-  "sign": crypto.suble.sign(HMAC-cryptKey-this)
-}
-```
-This removes the need for three separate JSON bodies per request.
-
-# Example usecases
-
-```html
-<script>
-	let secret = "rather secret key";
-	let json = {
-		"algo": "HS256",
-		"something": "to be sent"
-	};
-  
-	let jwt = new jwt_frame(json, 'HMAC', secret);
-	jwt.sign(function(signature) {
-		json['sign'] = signature
-		socket.send(json);
-	})
-</script>
-```
+On its own, it only creates valid data structures for `obtain.life`.<br>
+To send them, use HTTP or WebSocket requests, via for instance [slimWebSocket](https://github.com/Torxed/slimWebSocket).
 
 # Features
 
- * HS256
+ * [HS256](https://github.com/Torxed/javascript-olife/wiki/HS256)
+ * <strike>HS384</strike>
+ * <strike>HS512</strike>
+ * <strike>RS256</strike>
+ * <strike>RS384</strike>
+ * <strike>RS512</strike>
+ * <strike>ES256</strike>
+ * <strike>ES384</strike>
+ * <strike>ES512</strike>
+ * <strike>PS256</strike>
+ * <strike>PS384</strike>
+ * <strike>PS512</strike>
+ * <strike>EdDSA</strike>
 
 # Installation
 
 ```html
-<script type="text/javascript" href="./miniJWT.js"></script>
+<script type="text/javascript" href="./olife.js"></script>
 ```
 
 Or via GitHub as CDN:
@@ -51,7 +39,7 @@ Or via GitHub as CDN:
 	// #LoadingScriptsFromGithub
 
 	let xhr = new XMLHttpRequest();
-	xhr.open("GET", 'https://raw.githubusercontent.com/Torxed/miniJWT/master/miniJWT.js', true);
+	xhr.open("GET", 'https://raw.githubusercontent.com/Torxed/olife/master/olife.js', true);
 	xhr.onreadystatechange = function() {
 		if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
 			let script = document.createElement('script');
@@ -63,35 +51,22 @@ Or via GitHub as CDN:
 	xhr.send();
 </script>
 ```
+# Example usecases
 
-# More info on the structure
-
-There's no 3-part-structure but the same behavior as a traditional JWT.<br>
-A more practical example:
-
-```json
-{
-  "alg": "HS256",
-  "data": {
-    "name": "Anton Hvornum",
-    "location": "earth"
-  }
-}
+```html
+<script>
+	let secret = "rather secret key";
+  
+	let life = new olife('obtain.life', 'HMAC', secret);
+	life.login('username', 'password');
+	
+	let payload = {
+		"algo": "HS256",
+		"something": "to be sent"
+	};
+	life.sign(function(signature) {
+		payload['sign'] = signature
+		external_socket.send(payload);
+	})
+</script>
 ```
-Firstly, the final struct is set up, the only requirement is the algorithm.<br>
-Sign it, and add in the signature after the struct is complete.<br>
-
-```json
-{
-  "alg": "HS256",
-  "data": {
-    "name": "Anton Hvornum",
-    "location": "earth"
-  },
-  "sign": "60be5df79cd0ac308fcf6cd8668e5a7276266b7c38593ad7707b280f4edadddf"
-}
-```
-
-And there you go, `algo` telling the server what hash to generate.<br>
-Custom data in any way you want, in this case a nested dict called `data`.<br>
-And finalized with a `sign` signature.
