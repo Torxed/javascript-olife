@@ -57,7 +57,7 @@ Or via GitHub as CDN:
 <script>
 	let secret = "rather secret key";
   
-	let life = new olife('obtain.life', 'HMAC', secret);
+	let life = new olife('obtain.life', 'HS256', secret);
 	life.login('username', 'password');
 	
 	let payload = {
