@@ -64,7 +64,7 @@ Or via GitHub as CDN:
 		"algo": "HS256",
 		"something": "to be sent"
 	};
-	life.sign(function(signature) {
+	life.sign(payload, function(signature) {
 		payload['sign'] = signature
 		external_socket.send(payload);
 	})
