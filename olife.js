@@ -11,10 +11,16 @@ class _olife {
 	constructor(domain, mode, secret) {
 		this.domain = domain;
 		this.mode = mode;
-		this.key = key;
+		this.key = secret;
 	}
 
-	sign(data, key, func) {
+	sign(data, key, func=null) {
+		// If no key is given, assume that key contains the func
+		// and we do key -> func, and insert this.key into key.
+		if(typeof key !== 'string') {
+			func = key
+			key = this.key;
+		}
 		let payload = getUtf8Bytes(JSON.stringify(data));
 		crypto.subtle.importKey('raw', getUtf8Bytes(key), { name: 'HMAC', hash: 'SHA-256' }, true, ['sign']).then(function(cryptoKey) {
 			crypto.subtle.sign('HMAC', cryptoKey, payload).then(function(signature) {
@@ -23,7 +29,7 @@ class _olife {
 		})
 	}
 
-	subscribe(domain, secret, func) {
+	subscribe(domain, secret, func=null) {
 		let payload = {
 			"alg": "HS256",
 			"domain": domain,
@@ -34,12 +40,15 @@ class _olife {
 			payload['service_sign'] = service_signature;
 			this.sign(payload, this.key, (signature) => {
 				payload['sign'] = signature;
-				func(payload);
+				if(func)
+					func(payload);
+				else
+					console.warn('No function given to subscribe.')
 			})
 		})
 	}
 
-	login(user, pass, func) {
+	login(user, pass, func=null) {
 		let payload = {
 			"alg": this.mode,
 			"domain": this.domain,
@@ -48,9 +57,54 @@ class _olife {
 			"password": pass
 		}
 
-		this.sign(payload, this.key, function(signature) {
+		this.sign(payload, this.key, (signature) => {
 			payload['sign'] = signature;
-			func(payload);
+			if(func)
+				func(payload);
+			else
+				console.warn('No function given to login.')
+		})
+	}
+
+	claim(domain, email, func=null) {
+		let payload = {
+			"alg": this.mode,
+			"_module": "claim",
+			"domain": this.domain,
+			"claim": domain,
+			"admin": email
+		}
+
+		console.log('Signing with key:', this.key);
+		this.sign(payload, this.key, (signature) => {
+			payload['sign'] = signature;
+			if(func)
+				func(payload);
+			else
+				console.warn('No function given to claim.')
+		})
+	}
+
+	get_profile(userid=null, token=null, func=null) {
+		if(!token) {
+			console.warn('No token given to get_profile, can\'t request a profile without it.');
+			return;
+		}
+
+		let payload = {
+			"alg": this.mode,
+			"_module": "profile",
+			"token" : token,
+			"domain": this.domain
+		}
+
+		console.log('Signing with key:', this.key);
+		this.sign(payload, this.key, (signature) => {
+			payload['sign'] = signature;
+			if(func)
+				func(payload);
+			else
+				console.warn('No function given to claim.')
 		})
 	}
 }
